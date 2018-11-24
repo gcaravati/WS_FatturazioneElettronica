@@ -23,12 +23,16 @@ namespace WS_FatturazioneElettronica.Models
         public decimal ImportoBuono   { get; set; }
         public decimal Iva            { get; set; }
         public decimal Imponibile     { get; set; }
+        public int FatturaPA { get; set; }
 
         public static List<Fatture> ReadAll()
         {
-            using (OleDbConnection db = ConnectionHelper.GetOleDbConnection())
+            using (OleDbConnection conn = ConnectionHelper.GetOleDbConnection())
             {
-                return db.Query<Fatture>("Select * From Fatture").ToList();
+                conn.Open();
+                var result = conn.Query<Fatture>("Select * From Fatture").ToList();
+                conn.Close();
+                return result;
             }
         }
 
@@ -40,9 +44,25 @@ namespace WS_FatturazioneElettronica.Models
                 parameters.Add("Id", id);
 
                 conn.Open();
-                var result = conn.Query<Fatture>("Select * From Fatture WHERE Id = @Id", parameters).SingleOrDefault();
+                var result = conn.Query<Fatture>("Select * From Fatture WHERE ID = @Id", parameters).SingleOrDefault();
                 conn.Close();
                 return result;
+            }
+        }
+
+        public static int Update(int Id)
+        {
+            using (OleDbConnection conn = ConnectionHelper.GetOleDbConnection())
+            {
+                string sqlQuery = $"UPDATE Fatture SET [FatturaPA]=1 WHERE ID={Id};";
+                using (OleDbCommand cmd = new OleDbCommand(sqlQuery, conn))
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                }
+                int rowsAffected = conn.Execute(sqlQuery,Id);
+                return rowsAffected;
             }
         }
 

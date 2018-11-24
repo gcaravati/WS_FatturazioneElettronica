@@ -13,11 +13,10 @@ namespace WS_FatturazioneElettronica
 {
     public class ConnectionHelper
     {
-        public static SqlConnection GetSqlConnection()
+        public static OleDbConnection GetOleDbConnectionJET()
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["bubusetteteaccdb"].ConnectionString;
-            var connection = new SqlConnection(connectionString);
-            connection.Open();
+            string connectionString = ConfigurationManager.ConnectionStrings["bubusetteteaccdbJET"].ConnectionString;
+            var connection = new OleDbConnection(connectionString);
             return connection;
         }
 
@@ -25,10 +24,7 @@ namespace WS_FatturazioneElettronica
         {
             string connectionString = ConfigurationManager.ConnectionStrings["bubusetteteaccdb"].ConnectionString;
             var connection = new OleDbConnection(connectionString);
-            connection.Open();
             return connection;
         }
-
-        
     }
 }

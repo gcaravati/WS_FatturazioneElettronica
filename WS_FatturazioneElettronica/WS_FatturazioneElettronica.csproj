@@ -55,6 +55,8 @@
   <ItemGroup>
     <Compile Include="Configurazione.cs" />
     <Compile Include="ConnectionHelper.cs" />
+    <Compile Include="Models\FatturaPA.cs" />
+    <Compile Include="Models\AnagrafeClienti.cs" />
     <Compile Include="Models\Fatture.cs" />
     <Compile Include="Models\Prodotti.cs" />
     <Compile Include="ProjectInstaller.cs">
