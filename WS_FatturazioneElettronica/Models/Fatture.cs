@@ -54,15 +54,17 @@ namespace WS_FatturazioneElettronica.Models
         {
             using (OleDbConnection conn = ConnectionHelper.GetOleDbConnection())
             {
-                string sqlQuery = $"UPDATE Fatture SET [FatturaPA]=1 WHERE ID={Id};";
-                using (OleDbCommand cmd = new OleDbCommand(sqlQuery, conn))
+                try
                 {
                     conn.Open();
-                    cmd.ExecuteNonQuery();
+                    string sqlQuery = "UPDATE Fatture SET FatturaPA = 1 WHERE ID=1;";
+                    int rowsAffected = conn.Execute(sqlQuery);
+                    return rowsAffected;
+                }
+                finally 
+                {
                     conn.Close();
                 }
-                int rowsAffected = conn.Execute(sqlQuery,Id);
-                return rowsAffected;
             }
         }
 
